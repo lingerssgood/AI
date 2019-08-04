@@ -1,0 +1,13 @@
+4个输入参数：用于分类的输入向量inX，训练样本集dataSet，标签向量labels，用于选择最近邻的数目k；
+dataSetSize = dataSet.shape[0] 这一句使用到了NumPy的shape函数，返回矩阵/数组的不同维数的长度，第一个元素（shape[0]）表示第一维的长度，亦即行数，可参考numpy.shape；
+diffMat = tile(inX, (dataSetSize,1)) - dataSet 这里用到了NumPy中的tile(A,reps)函数，用于扩充A，具体用法可以参考numpy.tile；
+sqDiffMat = diffMat**2 求平方；
+sqDistances = sqDiffMat.sum(axis=1) 求和可参考numpy.sum；
+distances = sqDistances**0.5 求开方，上面的几步是用来计算距离的；
+sortedDistIndicies = distances.argsort()使用了argsort()函数，可以参考：numpy.argsort；
+classCount={} 这是一个dict，用于存储不同标签出现的次数；
+for i in range(k):
+　　voteIlabel = labels[sortedDistIndicies[i]]
+　　classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
+这里是选择距离最小的k个点， sortedDistIndicies已经排好序，只需迭代的取前k个样本点的labels(即标签)，并计算该标签出现的次数，这里还用到了dict.get(key, default=None)函数，key就是dict中的键voteIlabel，如果不存在则返回一个0并存入dict，如果存在则读取当前值并+1；
+sortedClassCount = sorted(classCount.iteritems(), key=operator.itemgetter(1), reverse=True) 这里使用了sorted()函数sorted(iterable, cmp=None, key=None, reverse=False)，iteritems()将dict分解为元组列表，operator.itemgetter(1)表示按照第二个元素的次序对元组进行排序，注意sort()的区别，可参考numpy.sort；
