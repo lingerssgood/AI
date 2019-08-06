@@ -1,7 +1,10 @@
 #K近邻算法改善约会网站的配对效果
 from numpy import *
+import DataModel.KNN_base
+import matplotlib.pyplot as plt
+
 from pip._vendor.distlib.compat import raw_input
-from  .import KNN_base
+
 #准备数据
 def file2Matrix(filename):
     fr=open(filename)
@@ -17,10 +20,8 @@ def file2Matrix(filename):
         index+=1
     return returnMat,classLabelVector
 #图形展示
-import matplotlib
-import matplotlib.pyplot as plt
 def dataShow():
-    datingDataMat,datingLabels=file2Matrix('datingtestset.txt')
+    datingDataMat,datingLabels=file2Matrix('./datingtestset')
     fig=plt.figure()
     ax=fig.add_subplot(111)
     ax.scatter(datingDataMat[:,1],datingDataMat[:,2])
@@ -46,8 +47,8 @@ def datingClassTest():
     numTestVecs=int[m*hoRatio]
     errorCount=0.0
     for i in range(numTestVecs):
-        classifierResult=KNN_base.classfy0(normMat[i,:],normMat[numTestVecs:m,:],\
-                                  datingLabels[numTestVecs:m],3)
+        classifierResult= DataModel.classfy0(normMat[i, :], normMat[numTestVecs:m, :],\
+                                  datingLabels[numTestVecs:m], 3)
         print("the classifier came back with:%d,the real answer is:%d"\
               %(classifierResult,datingLabels[i]))
         if(classifierResult!=datingLabels[i]):errorCount+=1.0
@@ -62,7 +63,9 @@ def classfyPerson():
     datingDataMat,datingLables=file2Matrix('datingtestset.txt')
     normMat,ranges,minVals=autoMorm(datingDataMat)
     inArr=array([ffMiles,percentTats,iceCream])
-    classifierResult=KNN_base.classfy0((inArr-\
-                                        minVals)/ranges,normMat,datingLables,3)
+    classifierResult= DataModel.classfy0((inArr - \
+                                          minVals) / ranges, normMat, datingLables, 3)
     print("You will probably like this person:",\
           resultList[classifierResult-1])
+if __name__=='__main__':
+    dataShow()
