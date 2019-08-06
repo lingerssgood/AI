@@ -26,6 +26,7 @@ def dataShow():
     ax=fig.add_subplot(111)
    # ax.scatter(datingDataMat[:,1],datingDataMat[:,2])
     ax.scatter(datingDataMat[:, 1], datingDataMat[:, 2], 15.0 * array(datingLabels,dtype="float"), 15.0 * array(datingLabels,dtype="float"))
+
     #ax.scatter(datingDataMat[:, 1], datingDataMat[:, 2], 15.0 * array(datingLabels), 15.0 * array(datingLabels))
     plt.show()
 #归一化特征值
