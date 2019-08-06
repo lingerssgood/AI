@@ -1,11 +1,6 @@
 #K近邻算法改善约会网站的配对效果
 from numpy import *
-import operator
-import sys
-
 from pip._vendor.distlib.compat import raw_input
-
-sys.path.append('path/to/DataModel')
 from  .import KNN_base
 #准备数据
 def file2Matrix(filename):
