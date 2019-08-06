@@ -2,7 +2,6 @@
 from numpy import *
 import DataModel.KNN_base
 import matplotlib.pyplot as plt
-
 from pip._vendor.distlib.compat import raw_input
 
 #准备数据
@@ -16,7 +15,8 @@ def file2Matrix(filename):
     for line in arrayOLines:
         line=line.strip()
         listFromLine=line.split('\t')
-        returnMat[index,:]=listFromLine[-1]
+        returnMat[index,:] = listFromLine[0:3]
+        classLabelVector.append(listFromLine[-1])
         index+=1
     return returnMat,classLabelVector
 #图形展示
