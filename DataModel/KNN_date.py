@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from pip._vendor.distlib.compat import raw_input
 
 #准备数据
+#从文件中导入数据
 def file2Matrix(filename):
     fr=open(filename)
     arrayOLines=fr.readlines()
@@ -16,6 +17,7 @@ def file2Matrix(filename):
         line=line.strip()
         listFromLine=line.split('\t')
         returnMat[index,:] = listFromLine[0:3]
+        print(listFromLine[0:3])
         classLabelVector.append(listFromLine[-1])
         index+=1
     return returnMat,classLabelVector
