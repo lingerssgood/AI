@@ -1,6 +1,6 @@
 #K近邻算法改善约会网站的配对效果
 from numpy import *
-import DataModel.KNN_base
+import DataModel.KNN.KNN_base
 import matplotlib.pyplot as plt
 from pip._vendor.distlib.compat import raw_input
 
@@ -23,7 +23,7 @@ def file2Matrix(filename):
     return returnMat,classLabelVector
 #图形展示
 def dataShow():
-    datingDataMat,datingLabels=file2Matrix('./datingtestset')
+    datingDataMat,datingLabels=file2Matrix('./data/datingtestset')
     fig=plt.figure()
     ax=fig.add_subplot(111)
    # ax.scatter(datingDataMat[:,1],datingDataMat[:,2])
@@ -44,7 +44,7 @@ def autoMorm(dataSet):
 #测试代码--错误率计算
 def datingClassTest():
     hoRatio=0.10
-    datingDataMat,datingLabels=file2Matrix('datingtestset.txt')
+    datingDataMat,datingLabels=file2Matrix('data/datingtestset.txt')
     normMat,ranges,minVals=autoMorm(datingDataMat)
     m=normMat.shape[0]
     numTestVecs=int[m*hoRatio]
