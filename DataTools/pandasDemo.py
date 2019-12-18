@@ -111,3 +111,94 @@ df2=pd.DataFrame([[5,6],[7,8]],columns=['a','b'])
 df=df.append(df2)
 df=df.drop(0)
 print(df)
+#迭代DataFrame
+N=20
+df=pd.DataFrame({
+   'A':pd.date_range(start='2016-01-01',periods=N,freq='D'),
+   'x':np.linspace(0,stop=N-1,num=N),
+   'y':np.random.rand(N),
+   'C':np.random.choice(['Low','Medium','High'],N).tolist(),
+   'D':np.random.normal(100,10,size=(N)).tolist()
+})
+for col in df:
+   print(col)
+'''
+iteritems() - 迭代(key，value)对
+iterrows() - 将行迭代为(索引，系列)对
+itertuples() - 以namedtuples的形式迭代行
+'''
+#iteritems()
+#将每个列作为键，将值与值作为键和列值迭代为Series对象。
+df=pd.DataFrame(np.random.randn(4,3),columns=['col1','col2','col3'])
+for key,value in df.iteritems():
+   print(key,value)
+#iterrows()返回迭代器，产生每个索引值以及包含每行数据的序列。
+df=pd.DataFrame(np.random.randn(4,3),columns=['col1','col2','col3'])
+for row_index,row in df.iterrows():
+   print(row_index,row)
+#itertuples()方法将为DataFrame中的每一行返回一个产生一个
+# 命名元组的迭代器。元组的第一个元素将是行的相应索引值，而剩余的值是行值。
+df=pd.DataFrame(np.random.randn(4,3),columns=['col1','col2','col3'])
+for row in df.itertuples():
+   print(row)
+
+#分割对象
+# 应用一个函数
+# 结合的结果
+'''
+聚合-计算汇总统计
+转换-执行一些特定于组的操作
+过滤-在某些情况下丢弃数据
+'''
+import pandas as pd
+ipl_data={'Team': ['Riders', 'Riders', 'Devils', 'Devils', 'Kings',
+         'kings', 'Kings', 'Kings', 'Riders', 'Royals', 'Royals', 'Riders'],
+         'Rank': [1, 2, 2, 3, 3,4 ,1 ,1,2 , 4,1,2],
+         'Year': [2014,2015,2014,2015,2014,2015,2016,2017,2016,2014,2015,2017],
+         'Points':[876,789,863,673,741,812,756,788,694,701,804,690]
+}
+df=pd.DataFrame(ipl_data)
+print(df)
+#将数据拆成分组
+#obj.groupby(‘key’)
+# obj.groupby([‘key1’,’key2’])
+# obj.groupby(key,axis=1)
+#分组
+print(df.groupby("Team"))
+#查看分组
+print(df.groupby("Team").groups)
+print(df.groupby(['Team','Year']).groups)
+#迭代遍历分组
+#使用groupby对象，可以遍历类似itertools.obj对象
+grouped=df.groupby('Year')
+for name,group in grouped:
+    print(name)
+    print(group)
+#选择一个分组
+#使用get_group()，选择一个分组
+print(grouped.get_group(2014))
+#聚合
+#聚合函数为每个组返回单个聚合值。当创建了分组(group by)对象，就可以对分组数据执行多个聚合操
+# 作。一个比较常用的是通过聚合或等效的agg方法聚合
+grouped=df.groupby('Year')#按年聚合
+print(grouped['Points'].agg(np.mean))#求平均值
+#查看分组大小的方法应用size()函数
+grouped=df.groupby('Team')
+print(grouped.agg(np.size))
+#一次应用多个聚合函数
+grouped=df.groupby('Team')
+agg=grouped['Points'].agg([np.sum,np.mean,np.std])
+print(agg)
+#分组或列上的转换返回索引大小与被分组的索引相同的对象。
+# 因此，转换应该返回与组块大小相同的结果。
+grouped=df.groupby('Team')
+score=lambda x:(x-x.mean())/x.std()*10
+print(grouped.transform(score))
+#过滤根据定义的标准过滤数据并返回数据的子集。
+# filter()函数用于过滤数据。
+filter=df.groupby('Team').filter((lambda x:len(x)>=3))
+print(filter)
+
+
+
+
